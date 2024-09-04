@@ -41,8 +41,8 @@ jobs:
           npm ci
       - name: Build
         run: |
+          cd frontend
           npm run build
-          ls
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
