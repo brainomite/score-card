@@ -42,6 +42,7 @@ jobs:
       - name: Build
         run: |
           cd frontend
+          echo VITE_BACKEND_SERVER=$VITE_BACKEND_SERVER > .env
           npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
