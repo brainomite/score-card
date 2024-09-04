@@ -1,11 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { backendUrl } from "./utils/config.defaults";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
+  const [serverResponse, setServerResponse] = useState("Loading...");
+  useEffect(() => {
+    const fetchResponse = async () => {
+      try {
+        const res = await fetch(`${backendUrl}/api`);
+        console.log(backendUrl);
+        setServerResponse(await res.text());
+      } catch (error: any) {
+        setServerResponse(`Error fetching from server: ${error.message}`);
+      }
+    };
+    fetchResponse();
+  }, []);
   return (
     <>
       <div>
@@ -28,8 +41,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <p>{serverResponse}</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
