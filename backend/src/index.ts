@@ -10,7 +10,10 @@ if (!process.env.FRONTEND_URL) {
     origin: process.env.FRONTEND_URL,
   };
   app.use(cors(corsOptions));
-  console.log(`CORS is enabled only for ${process.env.FRONTEND_URL}`);
+  console.log(
+    `CORS is enabled only for ${process.env.FRONTEND_URL}`,
+    JSON.stringify(corsOptions)
+  );
 }
 
 app.get("/api", (req, res) => {
