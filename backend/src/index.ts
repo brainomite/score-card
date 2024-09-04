@@ -12,6 +12,7 @@ if (!process.env.FRONTEND_URL) {
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   };
   app.use(cors(corsOptions));
+  console.log(`CORS is enabled only for ${process.env.FRONTEND_URL}`);
 }
 
 app.get("/api", (req, res) => {
