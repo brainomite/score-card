@@ -1,4 +1,3 @@
-import path from "path";
 import express from "express";
 import cors from "cors";
 const app = express();
@@ -10,16 +9,13 @@ if (!process.env.FRONTEND_URL) {
   const corsOptions = {
     origin: process.env.FRONTEND_URL,
   };
-  // app.use(cors(corsOptions));
-  app.use(cors());
+  app.use(cors(corsOptions));
   console.log(`CORS is enabled only for ${process.env.FRONTEND_URL}`);
 }
 
 app.get("/api", (req, res) => {
   res.send("Hello World!");
 });
-
-const __dirname = path.resolve();
 
 const { PORT = 3000 } = process.env;
 app.listen(PORT, () => {
