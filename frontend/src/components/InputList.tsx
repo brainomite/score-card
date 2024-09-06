@@ -1,7 +1,7 @@
 import { Box, Button, Paper, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import ListChip from "./listChip";
+import ListChip from "./ListChip";
 
 const InputList = ({
   name,
