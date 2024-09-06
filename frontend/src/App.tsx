@@ -1,47 +1,38 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+const GITHUB_REPO_URL = "https://github.com/brainomite/score-card-app";
+
+import { useEffect } from "react";
 import "./App.css";
 import { backendUrl } from "./utils/config.defaults";
+import toast, { Toaster } from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
+import SetUpCard from "./pages/SetUpCard";
+import GithubCorner from "react-github-corner";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [serverResponse, setServerResponse] = useState("Loading...");
   useEffect(() => {
     const fetchResponse = async () => {
       try {
-        const res = await fetch(`${backendUrl}/api`);
-        console.log(backendUrl);
-        setServerResponse(await res.text());
+        await fetch(`${backendUrl}/api`);
       } catch (error: any) {
-        setServerResponse(`Error fetching from server: ${error.message}`);
+        toast.error(`Failed to connect to ${backendUrl}\n${error.message}`);
       }
     };
     fetchResponse();
   }, []);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <p>{serverResponse}</p>
+      <Routes>
+        <Route path="/score-card-app/" element={<SetUpCard />} />
+      </Routes>
+      <Toaster />
+      <GithubCorner
+        href={GITHUB_REPO_URL}
+        bannerColor="#70B7FD"
+        octoColor="#fff"
+        size={80}
+        direction="right"
+        target="_blank"
+      />
     </>
   );
 }
