@@ -23,8 +23,8 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/score-card-app/" element={<SetUpCard />} />
-        <Route path="/score-card-app/sheet1/" element={<ScoreSheet />} />
+        <Route path="/" element={<SetUpCard />} />
+        <Route path="/sheet1/" element={<ScoreSheet />} />
       </Routes>
       <Toaster />
       <GithubCorner
