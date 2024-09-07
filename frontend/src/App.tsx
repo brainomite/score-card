@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import SetUpCard from "./pages/SetUpCard";
 import GithubCorner from "react-github-corner";
+import ScoreSheet from "./pages/ScoreSheet.1";
 
 function App() {
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
     <>
       <Routes>
         <Route path="/score-card-app/" element={<SetUpCard />} />
+        <Route path="/score-card-app/sheet1/" element={<ScoreSheet />} />
       </Routes>
       <Toaster />
       <GithubCorner
