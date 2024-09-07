@@ -1,18 +1,39 @@
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import Icon from "@mui/material/Icon";
-import { useState } from "react";
+import ListScoreCategory from "../components/ListScoreCategory";
+
+const DUMMY_DATA = [
+  {
+    pointName: "dragon points",
+    points: [
+      { name: "Aaron", score: 1 },
+      { name: "Jason", score: 0 },
+      { name: "Jenny", score: 15 },
+      { name: "Katie", score: 9 },
+    ],
+  },
+  {
+    pointName: "Egg points",
+    points: [
+      { name: "Aaron", score: 6 },
+      { name: "Jason", score: 7 },
+      { name: "Jenny", score: 1 },
+      { name: "Katie", score: 3 },
+    ],
+  },
+];
+
 const ScoreSheet = () => {
-  const [open, setOpen] = useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
+  const listScoreCategories = () =>
+    DUMMY_DATA.map(({ pointName, points }) => {
+      return (
+        <ListScoreCategory
+          key={pointName}
+          pointName={pointName}
+          points={points}
+        />
+      );
+    });
   return (
     <List
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -20,43 +41,11 @@ const ScoreSheet = () => {
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
+          Score Items
         </ListSubheader>
       }
     >
-      <ListItemButton>
-        <ListItemIcon>
-          <Icon>send</Icon>
-        </ListItemIcon>
-        <ListItemText primary="Sent mail" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <Icon>drafts</Icon>
-        </ListItemIcon>
-        <ListItemText primary="Drafts" />
-      </ListItemButton>
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <Icon>inbox</Icon>
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? (
-          <Icon>keyboard_arrow_up</Icon>
-        ) : (
-          <Icon>keyboard_arrow_down</Icon>
-        )}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <Icon>star</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Starred" secondary="0 points" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+      {listScoreCategories()}
     </List>
   );
 };
