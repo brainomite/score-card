@@ -6,20 +6,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
 import ListScoreButton from "./ListScoreButton";
-
-type pointType = {
-  name: string;
-  score: number;
-};
+import { playerType } from "../types";
 
 const ListScoreCategory = ({
-  pointName,
-  points,
+  category: pointName,
+  players: points,
 }: {
-  pointName: string;
-  points: pointType[];
+  category: string;
+  players: playerType[];
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen(!open);
@@ -39,7 +35,7 @@ const ListScoreCategory = ({
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {points.map(({ name, score }) => (
+          {points.map(({ name, points: score }) => (
             <ListScoreButton key={name} name={name} score={score} />
           ))}
         </List>

@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import SetUpCard from "./pages/SetUpCard";
 import GithubCorner from "react-github-corner";
-import ScoreSheet from "./pages/ScoreSheet.1";
+import ScoreSheet from "./pages/ScoreSheet";
 
 function App() {
   useEffect(() => {
