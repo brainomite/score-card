@@ -2,14 +2,21 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import InputList from "../components/InputList";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import GithubCorner from "react-github-corner";
+import { Button } from "@mui/material";
 
 const GITHUB_REPO_URL = "https://github.com/brainomite/score-card-app";
 
 const SetUpCard = () => {
+  const [toSheet, setToSheet] = useState(false);
   const [scoreItems, setScoreItems] = useState<string[]>([]);
   const [names, setNames] = useState<string[]>([]);
+
+  if (toSheet) {
+    return <Navigate to="/sheet1" />;
+  }
+
   return (
     <>
       <Box
@@ -40,7 +47,13 @@ const SetUpCard = () => {
         />
         <InputList name="Player" listItems={names} setListItems={setNames} />
       </Box>
-      <Link to={"/sheet1"}>Example sheet</Link>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setToSheet(true)}
+      >
+        Submit
+      </Button>
       <GithubCorner
         href={GITHUB_REPO_URL}
         bannerColor="#70B7FD"
