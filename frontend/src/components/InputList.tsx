@@ -47,7 +47,7 @@ const InputList = ({
           </Stack>
           <Button
             variant="contained"
-            sx={{ height: "90%" }}
+            sx={{ height: "90%", width: "140px" }}
             onClick={(e: React.SyntheticEvent) => {
               e.preventDefault();
               addListItem();
