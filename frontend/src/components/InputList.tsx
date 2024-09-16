@@ -1,7 +1,16 @@
-import { Box, Button, Paper, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
-import ListChip from "./ListChip";
+import {
+  useState,
+  Dispatch,
+  ChangeEvent,
+  SyntheticEvent,
+  useCallback,
+} from "react";
+import CreateListItem from "./CreateListItem";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
 
 const InputList = ({
   name,
@@ -10,22 +19,64 @@ const InputList = ({
 }: {
   name: string;
   listItems: string[];
-  setListItems: React.Dispatch<React.SetStateAction<string[]>>;
+  setListItems: Dispatch<React.SetStateAction<string[]>>;
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [inputError, setInputError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const deleteItem = (text: string) => {
     setListItems(listItems.filter((item) => item !== text));
   };
 
+  const moveItem = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      const copyOfListItems = [...listItems];
+      copyOfListItems.splice(dragIndex, 1);
+      copyOfListItems.splice(hoverIndex, 0, listItems[dragIndex] as string);
+      setListItems(copyOfListItems);
+    },
+    [listItems, setListItems]
+  );
+
   const generateList = () => {
-    return listItems.map((item) => (
-      <ListChip text={item} deleteItem={deleteItem} />
+    return listItems.map((item, idx) => (
+      <CreateListItem
+        key={item}
+        text={item}
+        deleteItem={() => deleteItem(item)}
+        moveItem={moveItem}
+        idx={idx}
+      />
     ));
   };
 
   const addListItem = () => {
-    setListItems([...listItems, inputValue]);
-    setInputValue("");
+    const found = listItems.find(
+      (item) => item.toLowerCase() === inputValue.toLowerCase()
+    );
+    if (inputValue === "") {
+      setInputError(true);
+      setErrorMessage(`${name} cannot be empty`);
+    } else if (!found) {
+      // title case the input
+      const titleCaseInput = inputValue
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      setListItems([...listItems, titleCaseInput]);
+      setInputValue("");
+    } else {
+      setInputError(true);
+      setErrorMessage(`${name} already exists`);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setInputValue(e.target.value);
+    setInputError(false);
+    setErrorMessage("");
   };
 
   return (
@@ -39,7 +90,9 @@ const InputList = ({
               fullWidth
               sx={{ margin: "10px" }}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              error={inputError}
+              helperText={errorMessage}
+              onChange={handleChange}
               onKeyUp={(e) => {
                 if (e.key === "Enter") addListItem();
               }}
@@ -47,8 +100,8 @@ const InputList = ({
           </Stack>
           <Button
             variant="contained"
-            sx={{ height: "90%" }}
-            onClick={(e: React.SyntheticEvent) => {
+            sx={{ height: "90%", width: "140px" }}
+            onClick={(e: SyntheticEvent) => {
               e.preventDefault();
               addListItem();
             }}
@@ -56,17 +109,7 @@ const InputList = ({
             {`Add ${name}`}
           </Button>
         </Box>
-        <Paper>
-          <Stack
-            spacing={1}
-            direction={"column"}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            {generateList()}
-          </Stack>
-        </Paper>
+        <List>{generateList()}</List>
       </Box>
     </>
   );
