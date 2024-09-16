@@ -1,5 +1,11 @@
 import TextField from "@mui/material/TextField";
-import { useState, Dispatch, ChangeEvent, SyntheticEvent } from "react";
+import {
+  useState,
+  Dispatch,
+  ChangeEvent,
+  SyntheticEvent,
+  useCallback,
+} from "react";
 import CreateListItem from "./CreateListItem";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -23,13 +29,24 @@ const InputList = ({
     setListItems(listItems.filter((item) => item !== text));
   };
 
+  const moveItem = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      const copyOfListItems = [...listItems];
+      copyOfListItems.splice(dragIndex, 1);
+      copyOfListItems.splice(hoverIndex, 0, listItems[dragIndex] as string);
+      setListItems(copyOfListItems);
+    },
+    [listItems, setListItems]
+  );
+
   const generateList = () => {
-    return listItems.map((item) => (
+    return listItems.map((item, idx) => (
       <CreateListItem
         key={item}
         text={item}
-        // setListItems={setListItems}
         deleteItem={() => deleteItem(item)}
+        moveItem={moveItem}
+        idx={idx}
       />
     ));
   };
