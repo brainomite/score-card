@@ -59,7 +59,12 @@ const InputList = ({
       setInputError(true);
       setErrorMessage(`${name} cannot be empty`);
     } else if (!found) {
-      setListItems([...listItems, inputValue]);
+      // title case the input
+      const titleCaseInput = inputValue
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      setListItems([...listItems, titleCaseInput]);
       setInputValue("");
     } else {
       setInputError(true);
