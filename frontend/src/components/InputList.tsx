@@ -1,10 +1,10 @@
 import TextField from "@mui/material/TextField";
-import { useState, Dispatch, ChangeEvent } from "react";
-import ListChip from "./ListChip";
+import { useState, Dispatch, ChangeEvent, SyntheticEvent } from "react";
+import CreateListItem from "./CreateListItem";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
+import List from "@mui/material/List";
 
 const InputList = ({
   name,
@@ -25,18 +25,18 @@ const InputList = ({
 
   const generateList = () => {
     return listItems.map((item) => (
-      <ListChip text={item} deleteItem={deleteItem} />
+      <CreateListItem key={item} text={item} deleteItem={deleteItem} />
     ));
   };
 
   const addListItem = () => {
-    // check if listItems already contains inputValue
     const found = listItems.find(
       (item) => item.toLowerCase() === inputValue.toLowerCase()
     );
-    console.log("🚀 ~ addListItem ~ found:", found);
-
-    if (!found) {
+    if (inputValue === "") {
+      setInputError(true);
+      setErrorMessage(`${name} cannot be empty`);
+    } else if (!found) {
       setListItems([...listItems, inputValue]);
       setInputValue("");
     } else {
@@ -74,7 +74,7 @@ const InputList = ({
           <Button
             variant="contained"
             sx={{ height: "90%", width: "140px" }}
-            onClick={(e: React.SyntheticEvent) => {
+            onClick={(e: SyntheticEvent) => {
               e.preventDefault();
               addListItem();
             }}
@@ -82,17 +82,7 @@ const InputList = ({
             {`Add ${name}`}
           </Button>
         </Box>
-        <Paper>
-          <Stack
-            spacing={1}
-            direction={"column"}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            {generateList()}
-          </Stack>
-        </Paper>
+        <List>{generateList()}</List>
       </Box>
     </>
   );
