@@ -25,7 +25,12 @@ const InputList = ({
 
   const generateList = () => {
     return listItems.map((item) => (
-      <CreateListItem key={item} text={item} deleteItem={deleteItem} />
+      <CreateListItem
+        key={item}
+        text={item}
+        // setListItems={setListItems}
+        deleteItem={() => deleteItem(item)}
+      />
     ));
   };
 

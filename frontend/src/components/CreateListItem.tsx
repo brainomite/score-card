@@ -5,23 +5,22 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+// import { SetStateAction } from "react";
 
 const CreateListItem = ({
   text,
   deleteItem,
-}: {
+}: // setListItems,
+{
   text: string;
-  deleteItem: (text: string) => void;
+  deleteItem: () => void;
+  // setListItems: (value: SetStateAction<string[]>) => void;
 }) => {
   return (
     <ListItem
       disablePadding
       secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="delete"
-          onClick={() => deleteItem(text)}
-        >
+        <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
           <Icon>delete</Icon>
         </IconButton>
       }
