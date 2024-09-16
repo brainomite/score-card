@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
+import { useState, Dispatch, ChangeEvent } from "react";
 import ListChip from "./ListChip";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -13,9 +13,12 @@ const InputList = ({
 }: {
   name: string;
   listItems: string[];
-  setListItems: React.Dispatch<React.SetStateAction<string[]>>;
+  setListItems: Dispatch<React.SetStateAction<string[]>>;
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [inputError, setInputError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const deleteItem = (text: string) => {
     setListItems(listItems.filter((item) => item !== text));
   };
@@ -27,8 +30,26 @@ const InputList = ({
   };
 
   const addListItem = () => {
-    setListItems([...listItems, inputValue]);
-    setInputValue("");
+    // check if listItems already contains inputValue
+    const found = listItems.find(
+      (item) => item.toLowerCase() === inputValue.toLowerCase()
+    );
+    console.log("🚀 ~ addListItem ~ found:", found);
+
+    if (!found) {
+      setListItems([...listItems, inputValue]);
+      setInputValue("");
+    } else {
+      setInputError(true);
+      setErrorMessage(`${name} already exists`);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setInputValue(e.target.value);
+    setInputError(false);
+    setErrorMessage("");
   };
 
   return (
@@ -42,7 +63,9 @@ const InputList = ({
               fullWidth
               sx={{ margin: "10px" }}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              error={inputError}
+              helperText={errorMessage}
+              onChange={handleChange}
               onKeyUp={(e) => {
                 if (e.key === "Enter") addListItem();
               }}
