@@ -7,14 +7,14 @@ import { categoryType } from "../types";
 
 const DUMMY_DATA = {
   dragons: {
-    Aaron: 1,
     Jason: 0,
+    Aaron: 1,
     Jenny: 15,
     Katie: 9,
   },
   Eggs: {
-    Aaron: 6,
     Jason: 7,
+    Aaron: 6,
     Jenny: 1,
     Katie: 3,
   },
@@ -33,7 +33,7 @@ const ScoreSheet = () => {
     });
   return (
     <Box>
-      {/* <ResultList scoreData={DUMMY_DATA} /> */}
+      <ResultList scoreData={DUMMY_DATA} />
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
