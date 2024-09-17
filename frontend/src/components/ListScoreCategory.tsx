@@ -6,14 +6,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
 import ListScoreButton from "./ListScoreButton";
-import { playerType } from "../types";
+import { playerPointsType } from "../types";
 
 const ListScoreCategory = ({
-  category: pointName,
-  players: points,
+  category,
+  players,
 }: {
   category: string;
-  players: playerType[];
+  players: playerPointsType;
 }) => {
   const [open, setOpen] = useState(true);
 
@@ -26,7 +26,7 @@ const ListScoreCategory = ({
         <ListItemIcon>
           <Icon>star</Icon>
         </ListItemIcon>
-        <ListItemText primary={pointName} />
+        <ListItemText primary={category} />
         {open ? (
           <Icon>keyboard_arrow_up</Icon>
         ) : (
@@ -35,8 +35,8 @@ const ListScoreCategory = ({
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {points.map(({ name, points: score }) => (
-            <ListScoreButton key={name} name={name} score={score} />
+          {Object.entries(players).map(([name, points]) => (
+            <ListScoreButton key={name} name={name} points={points} />
           ))}
         </List>
       </Collapse>

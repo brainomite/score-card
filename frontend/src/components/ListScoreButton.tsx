@@ -12,10 +12,16 @@ import toast from "react-hot-toast";
 
 const NOT_A_VALID_NUMBER = "Please enter a valid number";
 
-const ListScoreButton = ({ name, score }: { name: string; score: number }) => {
+const ListScoreButton = ({
+  name,
+  points,
+}: {
+  name: string;
+  points: number;
+}) => {
   const [open, setOpen] = useState(false);
-  const [newScore, setNewScore] = useState(score);
-  const [currentScore, setCurrentScore] = useState(score);
+  const [newScore, setNewScore] = useState(points);
+  const [currentScore, setCurrentScore] = useState(points);
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);
 

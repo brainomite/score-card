@@ -3,32 +3,26 @@ import List from "@mui/material/List";
 import ListScoreCategory from "../components/ListScoreCategory";
 import Box from "@mui/material/Box";
 import ResultList from "../components/ResultList";
-import { sheetDataType } from "../types";
+import { categoryType } from "../types";
 
-const DUMMY_DATA = [
-  {
-    category: "dragons",
-    players: [
-      { name: "Aaron", points: 1 },
-      { name: "Jason", points: 0 },
-      { name: "Jenny", points: 15 },
-      { name: "Katie", points: 9 },
-    ],
+const DUMMY_DATA = {
+  dragons: {
+    Jason: 0,
+    Aaron: 1,
+    Jenny: 15,
+    Katie: 9,
   },
-  {
-    category: "Eggs",
-    players: [
-      { name: "Aaron", points: 6 },
-      { name: "Jason", points: 7 },
-      { name: "Jenny", points: 1 },
-      { name: "Katie", points: 3 },
-    ],
+  Eggs: {
+    Jason: 7,
+    Aaron: 6,
+    Jenny: 1,
+    Katie: 3,
   },
-] as sheetDataType[];
+} as categoryType;
 
 const ScoreSheet = () => {
   const listScoreCategories = () =>
-    DUMMY_DATA.map(({ category, players }) => {
+    Object.entries(DUMMY_DATA).map(([category, players]) => {
       return (
         <ListScoreCategory
           key={category}

@@ -1,6 +1,6 @@
 import Badge from "@mui/material/Badge";
 import Chip from "@mui/material/Chip";
-import { sheetDataType } from "../types";
+import { categoryType } from "../types";
 import { forwardRef, useMemo, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -28,7 +28,7 @@ export const ScoreChip = ({
 }: {
   name: string;
   score: number;
-  scoreData: sheetDataType[];
+  scoreData: categoryType;
 }) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -36,9 +36,9 @@ export const ScoreChip = ({
 
   const rows = useMemo(
     () =>
-      scoreData.map(({ category, players }) => {
-        const player = players.find((player) => player.name === name);
-        return { category, points: player?.points || 0 };
+      Object.entries(scoreData).map(([category, playersScores]) => {
+        // const player = playersScores.find((player) => player.name === name);
+        return { category, points: playersScores[name] || 0 };
       }),
     [scoreData, name]
   );
