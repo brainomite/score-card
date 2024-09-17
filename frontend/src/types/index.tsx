@@ -1,2 +1,2 @@
-export type { playerType } from "./playerType.d";
-export type { sheetDataType } from "./sheetDataType.d";
+export type { playerPointsType } from "./playerPointsType.d";
+export type { categoryType } from "./categoryType.d";
