@@ -5,6 +5,10 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/deploy-frontend.yml"
+      - ".nvmrc"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,7 +40,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: ".nvmrc"
+          cache-dependency-path: "frontend/package-lock.json"
           cache: "npm"
       - name: Install dependencies
         run: |
