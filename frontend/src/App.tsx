@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const fetchResponse = async () => {
       try {
-        await fetch(`${backendUrl}/api`);
+        await fetch(`${backendUrl}/api/wake-up`);
       } catch (error: any) {
         toast.error(`Failed to connect to ${backendUrl}\n${error.message}`);
       }
