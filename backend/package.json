@@ -7,7 +7,8 @@
     "dev": "nodemon -e js,mjs,cjs,json,ts --watch src --exec node --env-file .env --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
     "build": "npm install && tsc",
     "build-with-prisma": "npm install && tsc && prisma generate --schema=./prisma/schema.prisma",
-    "start": "node dist/src/index.js"
+    "start": "node dist/src/index.js",
+    "docker": "docker run -d --name score-card-app-redis -p 6379:6379 redis/redis-stack-server:latest"
   },
   "type": "module",
   "keywords": [],
