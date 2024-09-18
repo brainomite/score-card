@@ -53,3 +53,31 @@ export async function getScoreCard(req: Request, res: Response) {
     console.error("Error fetching score card", error);
   }
 }
+
+export const updateScoreCard = async (req: Request, res: Response) => {
+  const { id, category, player, score } = req.body;
+  const internalId = getKeyName(id, SCORE_CARD_TYPE);
+  try {
+    const client = getClient();
+    const multiResult = await client
+      .multi()
+      .call("JSON.MERGE", internalId, `$.${category}.${player}`, score)
+      .expire(internalId, getScoreCardTTL())
+      .call("JSON.GET", internalId)
+      .exec();
+    if (!multiResult) {
+      res.status(500).send("Internal Server Error");
+      console.error("Error updating score card");
+      return;
+    }
+    const commandPosition = 2;
+    const resultPosition = 1;
+    const scoreCardJSONString = multiResult[commandPosition][
+      resultPosition
+    ] as string;
+    res.status(202).json(JSON.parse(scoreCardJSONString));
+  } catch (error) {
+    res.status(500).send("Error updating score card");
+    console.error("Error updating score card", error);
+  }
+};
