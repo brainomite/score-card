@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -e js,mjs,cjs,json,ts --watch src --exec node --env-file .env --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --inspect -e js,mjs,cjs,json,ts --watch src --exec node --env-file .env --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts --sourceMap",
     "build": "npm install && tsc",
     "build-with-prisma": "npm install && tsc && prisma generate --schema=./prisma/schema.prisma",
     "start": "node dist/src/index.js",

@@ -28,5 +28,28 @@ export const createScoreCard = async (req: Request, res: Response) => {
     res.status(500).send("Error creating score card");
     return;
   }
+
   res.status(201).json({ id: newId });
 };
+
+export async function getScoreCard(req: Request, res: Response) {
+  const { id } = req.body;
+  if (!id) {
+    res.status(400).send("Missing score card id");
+    return;
+  }
+
+  try {
+    const client = getClient();
+    const rawScoreCard = (await client.call("JSON.GET", id)) as string;
+    const scoreCard = JSON.parse(rawScoreCard);
+    if (!scoreCard) {
+      res.status(404).send("Score card not found");
+      return;
+    }
+    res.status(200).json(scoreCard);
+  } catch (error) {
+    res.status(500).send("Error fetching score card");
+    console.error("Error fetching score card", error);
+  }
+}
