@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -e js,mjs,cjs,json,ts --watch src --exec node --env-file .env --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --inspect -e js,mjs,cjs,json,ts --watch src --exec node --env-file .env --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts --sourceMap",
     "build": "npm install && tsc",
     "build-with-prisma": "npm install && tsc && prisma generate --schema=./prisma/schema.prisma",
-    "start": "node dist/src/index.js"
+    "start": "node dist/src/index.js",
+    "docker": "docker run -d --name score-card-app-redis -p 6379:6379 redis/redis-stack-server:latest"
   },
   "type": "module",
   "keywords": [],
@@ -16,12 +17,14 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/node": "^22.5.5",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1"
   }
 }
