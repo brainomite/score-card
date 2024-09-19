@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import generateScoreCard from "../utils/generateScoreCard.js";
-import { getClient, getKeyName } from "../db/redisClient.js";
-import getScoreCardTTL from "../utils/scoreCardTTL.js";
-import { SCORE_CARD_TYPE } from "../constants/scoreCard.js";
 import fetchScoreCard from "../utils/fetchScoreCard.js";
 import updateScoreCard from "../utils/updateScoreCard.js";
+import clearScoreCard from "../utils/clearScoreCard.js";
 
 export const createScoreCard = async (req: Request, res: Response) => {
   const { categories, players }: { categories: string[]; players: string[] } =
@@ -40,10 +38,7 @@ export async function getScoreCard(req: Request, res: Response) {
   }
 }
 
-export const updateScoreCardWithExpress = async (
-  req: Request,
-  res: Response
-) => {
+export const patchScoreCard = async (req: Request, res: Response) => {
   const { id, category, player, score } = req.body;
   try {
     const scoreCard = await updateScoreCard(id, category, player, score);
@@ -52,4 +47,9 @@ export const updateScoreCardWithExpress = async (
     res.status(500).send("Error updating score card");
     console.error("Error updating score card", error.message);
   }
+};
+
+export const deleteScoreCard = async (req: Request, res: Response) => {
+  const cleanedCard = await clearScoreCard(req.body.id);
+  res.status(202).json(cleanedCard);
 };

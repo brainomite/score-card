@@ -3,10 +3,13 @@ import { getClient, getKeyName } from "../db/redisClient.js";
 import getScoreCardTTL from "./scoreCardTTL.js";
 import { SCORE_CARD_TYPE } from "../constants/scoreCard.js";
 
-const createEmptyScoreCard = (
+type playerType = { [player: string]: number };
+type cardType = { [category: string]: playerType };
+
+export const createEmptyScoreCard = (
   categories: string[],
   players: string[]
-): { [category: string]: { [player: string]: number } } => {
+): cardType => {
   const startingPlayerObj = players.reduce(
     (acc, player) => ({ ...acc, [player]: 0 }),
     {}
