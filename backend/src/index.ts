@@ -19,7 +19,7 @@ if (!process.env.FRONTEND_URL) {
 
 app.use("/api", routes);
 
-const { PORT = 3000 } = process.env;
+const { PORT = 80 } = process.env;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
