@@ -19,7 +19,7 @@ const darkTheme = createTheme({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter basename="/score-card-app/">
+    <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline>
           <App />

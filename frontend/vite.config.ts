@@ -12,12 +12,11 @@ export default defineConfig({
     },
     cors: false,
   },
-  base: "/score-card-app/",
+  base: "/",
   build: {
     rollupOptions: {
       input: {
         main: "./index.html",
-        404: "./public/404.html",
       },
     },
   },

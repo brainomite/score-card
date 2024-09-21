@@ -2,24 +2,23 @@ import express from "express";
 import cors from "cors";
 const app = express();
 import routes from "./routes/index.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 app.use(express.json()); // for parsing application/json
-if (!process.env.FRONTEND_URL) {
-  app.use(cors());
-} else {
-  const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-  };
-  app.use(cors(corsOptions));
+app.use(cors());
+if (process.env.NODE_ENV !== "development") {
+  const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+  const __dirname = path.dirname(__filename); // get the name of the directory
+  const frontendDistPath = path.join(__dirname, "../../../frontend/dist");
+  app.use(express.static(frontendDistPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendDistPath, "index.html"));
+  });
 }
-
-// app.get("/api", (req, res) => {
-//   res.send("Hello World! From the backend!");
-// });
-
 app.use("/api", routes);
 
-const { PORT = 3000 } = process.env;
+const { PORT = 80 } = process.env;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
