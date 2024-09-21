@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --inspect -e js,mjs,cjs,json,ts --watch backend/src --exec node --env-file backend/.env --no-warnings=ExperimentalWarning --loader ts-node/esm backend/src/index.ts --sourceMap",
-    "build-old": "tsc && npm install --prefix frontend && npm run build --prefix frontend",
-    "build": "tsc && cd frontend && npm run build",
+    "build": "tsc && npm install --prefix frontend && npm run build --prefix frontend",
+    "build-": "tsc && npm install --prefix frontend &&  npm run build",
     "start": "node backend/dist/src/index.js",
     "dev-redis": "docker run -d --name score-card-app-redis -p 6379:6379 redis/redis-stack-server:latest"
   },
