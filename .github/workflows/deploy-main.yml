@@ -3,8 +3,13 @@ name: "deploy"
 
 on:
   push:
+<<<<<<< Updated upstream
     branches:
       - master
+=======
+    branches: ["main"]
+  workflow_dispatch:
+>>>>>>> Stashed changes
 
 jobs:
   deploy:
