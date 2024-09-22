@@ -3,18 +3,8 @@ name: "deploy"
 
 on:
   push:
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    branches:
-      - master
-=======
     branches: ["main"]
   workflow_dispatch:
->>>>>>> Stashed changes
-=======
-    branches: ["main"]
-  workflow_dispatch:
->>>>>>> Stashed changes
 
 jobs:
   deploy:
