@@ -20,3 +20,4 @@ jobs:
         with:
           git_remote_url: "ssh://dokku@dokku.aaronyoung.dev:22/scrcrd"
           ssh_private_key: ${{ secrets.DOKKU_PRIVATE_KEY }}
+          branch: "main"
