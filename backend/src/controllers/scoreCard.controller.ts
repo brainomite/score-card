@@ -39,7 +39,8 @@ export async function getScoreCard(req: Request, res: Response) {
 }
 
 export const patchScoreCard = async (req: Request, res: Response) => {
-  const { id, category, player, score } = req.body;
+  const { id } = req.params;
+  const { category, player, score } = req.body;
   try {
     const scoreCard = await updateScoreCard(id, category, player, score);
     res.status(202).json(scoreCard);
@@ -50,6 +51,6 @@ export const patchScoreCard = async (req: Request, res: Response) => {
 };
 
 export const deleteScoreCard = async (req: Request, res: Response) => {
-  const cleanedCard = await clearScoreCard(req.body.id);
+  const cleanedCard = await clearScoreCard(req.params.id);
   res.status(202).json(cleanedCard);
 };
