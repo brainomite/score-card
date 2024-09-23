@@ -4,10 +4,10 @@ import ListScoreCategory from "../components/ListScoreCategory";
 import Box from "@mui/material/Box";
 import ResultList from "../components/ResultList";
 import { categoryType } from "../types";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 
-const ScoreSheet = () => {
+export const Component: FC = () => {
   const [scoreData, setScoreData] = useState<categoryType>(
     useLoaderData() as categoryType
   );
@@ -59,5 +59,3 @@ const ScoreSheet = () => {
     </Box>
   );
 };
-
-export default ScoreSheet;

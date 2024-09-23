@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-multi-backend";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
 const MyPreview = () => {
   const preview = usePreview();

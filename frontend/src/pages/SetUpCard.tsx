@@ -1,19 +1,18 @@
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import InputList from "../components/InputList";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Navigate } from "react-router-dom";
 import GithubCorner from "react-github-corner";
-import { Button } from "@mui/material";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
-
 import {
   DndProvider,
   TouchTransition,
   MouseTransition,
 } from "react-dnd-multi-backend";
 import toast from "react-hot-toast";
+import Button from "@mui/material/Button";
 
 const HTML5toTouch = {
   backends: [
@@ -35,7 +34,7 @@ const HTML5toTouch = {
 
 const GITHUB_REPO_URL = "https://github.com/brainomite/score-card-app";
 
-const SetUpCard = () => {
+export const Component: FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [players, setPlayers] = useState<string[]>([]);
   const [scoreCardID, setScoreCardID] = useState<string | null>(null);
@@ -122,5 +121,3 @@ const SetUpCard = () => {
     </DndProvider>
   );
 };
-
-export default SetUpCard;

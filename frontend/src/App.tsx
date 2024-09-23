@@ -1,17 +1,19 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SetUpCard from "./pages/SetUpCard";
-import ScoreSheet from "./pages/ScoreSheet";
+// import SetUpCard from "./pages/SetUpCard";
+// import ScoreSheet from "./pages/ScoreSheet";
 import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SetUpCard />,
+    // element: <SetUpCard />,
+    lazy: () => import("./pages/SetUpCard"),
   },
   {
     path: "/sheet/:id/",
-    element: <ScoreSheet />,
+    lazy: () => import("./pages/ScoreSheet"),
+    // element: <ScoreSheet />,
     loader: async ({ params }) => {
       const res = await fetch(`/api/score-card/${params.id}/`);
       if (res.status === 404) {
