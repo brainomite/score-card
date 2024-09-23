@@ -9,9 +9,11 @@ import ListScoreButton from "./ListScoreButton";
 import { playerPointsType } from "../types";
 
 const ListScoreCategory = ({
+  updateScoreFor,
   category,
   players,
 }: {
+  updateScoreFor: (player: string) => (score: number) => Promise<void>;
   category: string;
   players: playerPointsType;
 }) => {
@@ -36,7 +38,12 @@ const ListScoreCategory = ({
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {Object.entries(players).map(([name, points]) => (
-            <ListScoreButton key={name} name={name} points={points} />
+            <ListScoreButton
+              key={name}
+              name={name}
+              points={points}
+              setNewScore={updateScoreFor(name)}
+            />
           ))}
         </List>
       </Collapse>

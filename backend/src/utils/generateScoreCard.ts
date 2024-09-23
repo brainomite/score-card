@@ -20,13 +20,14 @@ export const createEmptyScoreCard = (
 };
 
 export default async (categories: string[], players: string[]) => {
-  const id = getKeyName(crypto.randomUUID(), SCORE_CARD_TYPE);
+  const internalID = getKeyName(crypto.randomUUID(), SCORE_CARD_TYPE);
   const scoreCard = createEmptyScoreCard(categories, players);
   const client = getClient();
   await client
     .multi()
-    .call("JSON.SET", id, ".", JSON.stringify(scoreCard))
-    .expire(id, getScoreCardTTL())
+    .call("JSON.SET", internalID, ".", JSON.stringify(scoreCard))
+    .expire(internalID, getScoreCardTTL())
     .exec();
-  return id;
+
+  return internalID.split(":").at(-1);
 };

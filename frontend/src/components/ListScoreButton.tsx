@@ -15,29 +15,31 @@ const NOT_A_VALID_NUMBER = "Please enter a valid number";
 const ListScoreButton = ({
   name,
   points,
+  setNewScore,
 }: {
+  setNewScore: (score: number) => Promise<void>;
   name: string;
   points: number;
 }) => {
   const [open, setOpen] = useState(false);
-  const [newScore, setNewScore] = useState(points);
-  const [currentScore, setCurrentScore] = useState(points);
+  // const [newScore, setNewScore] = useState(points);
+  const [updatedScore, setUpdatedScore] = useState(points.toString());
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   const handleClickOpen = () => {
+    setUpdatedScore(points.toString());
     setOpen(true);
   };
 
-  const handleClose = (reset: boolean) => {
-    if (reset) {
-      setNewScore(currentScore);
-    }
+  const handleClose = () => {
     setOpen(false);
+    setDisabled(false);
+    setError(false);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewScore(parseInt(event.target.value));
+    setUpdatedScore(event.target.value);
     if (isNaN(Number(event.target.value)) || !event.target.value) {
       setError(true);
       setDisabled(true);
@@ -49,26 +51,26 @@ const ListScoreButton = ({
   return (
     <>
       <ListItemButton key={name} sx={{ pl: 4 }} onClick={handleClickOpen}>
-        <ListItemText
-          inset
-          primary={name}
-          secondary={`points: ${currentScore}`}
-        />
+        <ListItemText inset primary={name} secondary={`points: ${points}`} />
       </ListItemButton>
       <Dialog
         open={open}
-        onClose={() => handleClose(true)}
+        onClose={handleClose}
         closeAfterTransition={false}
         PaperProps={{
           component: "form",
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+          onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as any).entries());
-            const score = formJson.score;
-            setCurrentScore(score);
-            toast.success(`Score updated to ${score}`);
-            handleClose(false);
+            const score = parseInt(formJson.score);
+            if (score !== points) {
+              await setNewScore(score);
+              toast.success(`Score updated!`);
+            } else {
+              toast.success(`Score unchanged`, { icon: "❗" });
+            }
+            handleClose();
           },
         }}
       >
@@ -83,7 +85,7 @@ const ListScoreButton = ({
             margin="dense"
             name="score"
             label="Set Score"
-            value={newScore}
+            value={updatedScore}
             onChange={handleChange}
             error={error}
             helperText={error ? NOT_A_VALID_NUMBER : null}
@@ -93,7 +95,7 @@ const ListScoreButton = ({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(true)}>Cancel</Button>
+          <Button onClick={handleClose}>Cancel</Button>
           <Button disabled={disabled} type="submit">
             Save
           </Button>

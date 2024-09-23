@@ -3,8 +3,9 @@ import { useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import { ScoreChip } from "./ScoreChip";
 
-const ResultList = ({ scoreData }: { scoreData: categoryType }) => {
+const ResultList = ({ scoreData }: { scoreData: categoryType | null }) => {
   const sortedScoreList = useMemo(() => {
+    if (!scoreData) return null;
     const playerNames = Object.keys(Object.values(scoreData)[0]);
     const startingScoreObject = playerNames.reduce((acc, name) => {
       return { ...acc, [name]: 0 };
@@ -34,6 +35,8 @@ const ResultList = ({ scoreData }: { scoreData: categoryType }) => {
     });
     // return scoreList.sort((a, b) => b[1] - a[1]);
   }, [scoreData]);
+
+  if (!scoreData) return null;
 
   return (
     <Stack direction={"row"} spacing={2}>

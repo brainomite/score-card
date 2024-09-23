@@ -13,6 +13,7 @@ import {
   TouchTransition,
   MouseTransition,
 } from "react-dnd-multi-backend";
+import toast from "react-hot-toast";
 
 const HTML5toTouch = {
   backends: [
@@ -35,13 +36,43 @@ const HTML5toTouch = {
 const GITHUB_REPO_URL = "https://github.com/brainomite/score-card-app";
 
 const SetUpCard = () => {
-  const [toSheet, setToSheet] = useState(false);
-  const [scoreItems, setScoreItems] = useState<string[]>([]);
-  const [names, setNames] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [players, setPlayers] = useState<string[]>([]);
+  const [scoreCardID, setScoreCardID] = useState<string | null>(null);
 
-  if (toSheet) {
-    return <Navigate to="/sheet1" />;
+  if (scoreCardID) {
+    return <Navigate to={`/sheet/${scoreCardID}/`} />;
   }
+
+  const handleClick = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    if (!categories.length || !players.length) {
+      toast.error("Please enter at least one category and one player");
+      return;
+    }
+    // POST request to create a new score card sending an object with both categories and players
+    try {
+      const promiseForAResponse = fetch("/api/score-card", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ categories, players }),
+      });
+      toast.promise(promiseForAResponse, {
+        loading: "Creating score card...",
+        success: "Created!",
+        error: "Error while creating score card",
+      });
+      const response = await promiseForAResponse;
+      const { id } = await response.json();
+      setScoreCardID(id);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      //noop
+    }
+  };
 
   return (
     <DndProvider options={HTML5toTouch}>
@@ -62,8 +93,8 @@ const SetUpCard = () => {
       >
         <InputList
           name="Category"
-          listItems={scoreItems}
-          setListItems={setScoreItems}
+          listItems={categories}
+          setListItems={setCategories}
         />
         <Divider
           orientation="horizontal"
@@ -71,13 +102,13 @@ const SetUpCard = () => {
           flexItem
           sx={{ margin: "10px" }}
         />
-        <InputList name="Player" listItems={names} setListItems={setNames} />
+        <InputList
+          name="Player"
+          listItems={players}
+          setListItems={setPlayers}
+        />
       </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setToSheet(true)}
-      >
+      <Button variant="contained" color="primary" onClick={handleClick}>
         Submit
       </Button>
       <GithubCorner
