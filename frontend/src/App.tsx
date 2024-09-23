@@ -9,7 +9,18 @@ const router = createBrowserRouter([
     path: "/",
     element: <SetUpCard />,
   },
-  { path: "/sheet/:id/", element: <ScoreSheet /> },
+  {
+    path: "/sheet/:id/",
+    element: <ScoreSheet />,
+    loader: async ({ params }) => {
+      const res = await fetch(`/api/score-card/${params.id}/`);
+      if (res.status === 404) {
+        throw new Response("Not Found", { status: 404 });
+      }
+      return res;
+    },
+    errorElement: <h1>Card Expired</h1>,
+  },
 ]);
 
 function App() {
