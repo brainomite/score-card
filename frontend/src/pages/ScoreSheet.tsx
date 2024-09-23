@@ -5,30 +5,35 @@ import Box from "@mui/material/Box";
 import ResultList from "../components/ResultList";
 import { categoryType } from "../types";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 
 const ScoreSheet = () => {
-  const [scoreData] = useState<categoryType>(useLoaderData() as categoryType);
-  // fetch the score card data from the backend using the id
-  // useEffect(() => {
-  //   const getInitialData = async () => {
-  //     const promiseForScoreCardData = fetch(`/api/score-card/${id}/`);
-  //     toast.promise(promiseForScoreCardData, {
-  //       loading: "Fetching Card",
-  //       success: "Loaded!",
-  //       error: "Error while loading the score card",
-  //     });
-  //     const response = await promiseForScoreCardData;
-  //     const data = await response.json();
-  //     setScoreData(data);
-  //   };
-  //   getInitialData();
-  // }, [id]);
+  const [scoreData, setScoreData] = useState<categoryType>(
+    useLoaderData() as categoryType
+  );
+  const { id } = useParams() as { id: string };
+  const updateScoreForCategory =
+    (category: string) => (player: string) => async (score: number) => {
+      const res = await fetch(`/api/score-card/${id}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category,
+          player,
+          score,
+        }),
+      });
+      const updatedCard = (await res.json()) as categoryType;
+      setScoreData(updatedCard);
+    };
 
   const listScoreCategories = () => {
     return Object.entries(scoreData).map(([category, players]) => {
       return (
         <ListScoreCategory
+          updateScoreFor={updateScoreForCategory(category)}
           key={category}
           category={category}
           players={players}
