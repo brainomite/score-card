@@ -9,7 +9,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<SetUpCard />} />
-        <Route path="/sheet1/" element={<ScoreSheet />} />
+        {/* <Route path="/sheet1/" element={<ScoreSheet />} /> */}
+        {/* // create a route to "sheet/:id" that renders the ScoreSheet component */}
+        <Route path="/sheet/:id/" element={<ScoreSheet />} />
       </Routes>
       <Toaster />
     </>

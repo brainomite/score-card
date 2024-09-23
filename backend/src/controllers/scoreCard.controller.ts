@@ -20,7 +20,7 @@ export const createScoreCard = async (req: Request, res: Response) => {
 };
 
 export async function getScoreCard(req: Request, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
   if (!id) {
     res.status(400).send("Missing score card id");
     return;

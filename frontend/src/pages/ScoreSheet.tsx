@@ -4,36 +4,52 @@ import ListScoreCategory from "../components/ListScoreCategory";
 import Box from "@mui/material/Box";
 import ResultList from "../components/ResultList";
 import { categoryType } from "../types";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
-const DUMMY_DATA = {
-  dragons: {
-    Jason: 0,
-    Aaron: 1,
-    Jenny: 15,
-    Katie: 9,
-  },
-  Eggs: {
-    Jason: 7,
-    Aaron: 6,
-    Jenny: 1,
-    Katie: 3,
-  },
-} as categoryType;
+interface ScoreSheetProps {
+  params: {
+    id: string;
+  };
+}
 
 const ScoreSheet = () => {
-  const listScoreCategories = () =>
-    Object.entries(DUMMY_DATA).map(([category, players]) => {
-      return (
-        <ListScoreCategory
-          key={category}
-          category={category}
-          players={players}
-        />
-      );
-    });
+  const { id } = useParams() as { id: string };
+  // console.log("🚀 ~ ScoreSheet ~ params:", params);
+  const [scoreData, setScoreData] = useState<categoryType | null>(null);
+  // fetch the score card data from the backend using the id
+  useEffect(() => {
+    const getInitialData = async () => {
+      const promiseForScoreCardData = fetch(`/api/score-card/${id}/`);
+      toast.promise(promiseForScoreCardData, {
+        loading: "Fetching Card",
+        success: "Loaded!",
+        error: "Error while loading the score card",
+      });
+      const response = await promiseForScoreCardData;
+      const data = await response.json();
+      setScoreData(data);
+    };
+    getInitialData();
+  }, [id]);
+
+  const listScoreCategories = () => {
+    return scoreData
+      ? Object.entries(scoreData).map(([category, players]) => {
+          return (
+            <ListScoreCategory
+              key={category}
+              category={category}
+              players={players}
+            />
+          );
+        })
+      : null;
+  };
   return (
     <Box>
-      <ResultList scoreData={DUMMY_DATA} />
+      <ResultList scoreData={scoreData} />
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
