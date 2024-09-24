@@ -33,7 +33,7 @@ const InputList = ({
     (dragIndex: number, hoverIndex: number) => {
       const copyOfListItems = [...listItems];
       copyOfListItems.splice(dragIndex, 1);
-      copyOfListItems.splice(hoverIndex, 0, listItems[dragIndex] as string);
+      copyOfListItems.splice(hoverIndex, 0, listItems[dragIndex]);
       setListItems(copyOfListItems);
     },
     [listItems, setListItems]
@@ -80,38 +80,36 @@ const InputList = ({
   };
 
   return (
-    <>
-      <Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Stack spacing={2} useFlexGap direction="row">
-            <TextField
-              label={name}
-              variant="standard"
-              fullWidth
-              sx={{ margin: "10px" }}
-              value={inputValue}
-              error={inputError}
-              helperText={errorMessage}
-              onChange={handleChange}
-              onKeyUp={(e) => {
-                if (e.key === "Enter") addListItem();
-              }}
-            />
-          </Stack>
-          <Button
-            variant="contained"
-            sx={{ height: "90%", width: "140px" }}
-            onClick={(e: SyntheticEvent) => {
-              e.preventDefault();
-              addListItem();
+    <Box>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Stack spacing={2} useFlexGap direction="row">
+          <TextField
+            label={name}
+            variant="standard"
+            fullWidth
+            sx={{ margin: "10px" }}
+            value={inputValue}
+            error={inputError}
+            helperText={errorMessage}
+            onChange={handleChange}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") addListItem();
             }}
-          >
-            {`Add ${name}`}
-          </Button>
-        </Box>
-        <List>{generateList()}</List>
+          />
+        </Stack>
+        <Button
+          variant="contained"
+          sx={{ height: "90%", width: "140px" }}
+          onClick={(e: SyntheticEvent) => {
+            e.preventDefault();
+            addListItem();
+          }}
+        >
+          {`Add ${name}`}
+        </Button>
       </Box>
-    </>
+      <List>{generateList()}</List>
+    </Box>
   );
 };
 
