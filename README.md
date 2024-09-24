@@ -2,7 +2,7 @@
 
 ## to-dos
 
-- TODO Firebase Cloud Messaging
+- TODO Socket.io
 - TODO Add a reset button - should create a new card with same categories and
   players
 - TODO Add split splat to home page for pages saved
