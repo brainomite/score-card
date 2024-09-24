@@ -11,8 +11,11 @@ app.use("/api", routes);
 if (process.env.NODE_ENV !== "development") {
   const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
   const __dirname = path.dirname(__filename); // get the name of the directory
-  const frontendDistPath = path.join(__dirname, "../../../frontend/dist");
+  const frontendDistPath = path.join(__dirname, "../../../frontend/dist/");
   app.use(express.static(frontendDistPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendDistPath, "index.html"));
+  });
 }
 
 const { PORT = 80 } = process.env;
