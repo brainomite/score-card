@@ -2,12 +2,11 @@
 
 ## to-dos
 
-- TODO Add qr code and share link
+- TODO Firebase Cloud Messaging
 - TODO Add a reset button - should create a new card with same categories and
   players
 - TODO Add split splat to home page for pages saved
 - TODO add a 404 page
-- TODO websockets on front end and back
 
 ## hosted
 

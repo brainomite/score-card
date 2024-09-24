@@ -11,7 +11,12 @@ const ScoreSheetSpeedDial: FC = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const handleOpen = () => setSpeedDialOpen(true);
   const handleClose = () => setSpeedDialOpen(false);
+  const handleModalClose = () => {
+    setTimeout(() => setSpeedDialOpen(false), 50);
+    setShareModalOpen(false);
+  };
   const openShareModal = () => setShareModalOpen(true);
+
   const speedDialActions = [
     { icon: <Icon>share</Icon>, name: "Share", action: openShareModal },
     {
@@ -19,7 +24,7 @@ const ScoreSheetSpeedDial: FC = () => {
       name: "New",
       action: () => setNavigateToSetupCard(true),
     },
-    { icon: <Icon>lock_reset</Icon>, name: "Reset", action: handleClose },
+    // { icon: <Icon>lock_reset</Icon>, name: "Reset", action: handleClose },
   ];
 
   if (navigateToSetupCard) return <Navigate to="/" />;
@@ -44,10 +49,7 @@ const ScoreSheetSpeedDial: FC = () => {
           />
         ))}
       </SpeedDial>
-      <ShareModal
-        open={shareModalOpen}
-        handleClose={() => setShareModalOpen(false)}
-      />
+      <ShareModal open={shareModalOpen} handleClose={handleModalClose} />
     </>
   );
 };

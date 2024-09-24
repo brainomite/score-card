@@ -2,10 +2,10 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import Icon from "@mui/material/Icon";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { QRCodeSVG } from "qrcode.react";
 import { forwardRef, Ref, FC } from "react";
 
 const Transition = forwardRef(function Transition(
@@ -39,11 +39,9 @@ const ShareModal: FC<ShareModalProps> = ({ open, handleClose }) => {
           alignItems: "center",
         }}
       >
-        <DialogContentText id="alert-dialog-slide-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
-        </DialogContentText>
+        <QRCodeSVG value={document.URL} size={250} />
         <Icon
+          fontSize="large"
           sx={{ marginTop: "2rem" }}
           onClick={() =>
             navigator.share({
