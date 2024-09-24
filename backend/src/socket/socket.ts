@@ -4,7 +4,7 @@ import express from "express";
 import fetchScoreCard from "../utils/fetchScoreCard.js";
 import updateScoreCard from "../utils/updateScoreCard.js";
 
-export const SCORE_SHEET_DATA = "scoreSheetData";
+const SCORE_SHEET_DATA = "scoreSheetData";
 const UPDATE_SCORESHEET = "updateScoreSheet";
 const JOIN_SCORESHEET = "joinScoreSheet";
 
@@ -21,7 +21,6 @@ const io =
       });
 
 io.on("connection", (socket) => {
-  // const id = socket.handshake.query.id as string;
   socket.on(JOIN_SCORESHEET, async (id) => {
     socket.join(id);
     const sheetData = await fetchScoreCard(id);
