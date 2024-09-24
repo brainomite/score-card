@@ -6,7 +6,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
 import ListScoreButton from "./ListScoreButton";
-import { playerPointsType } from "../types";
+import { playerPointsType } from "../../types";
 
 const ListScoreCategory = ({
   updateScoreFor,

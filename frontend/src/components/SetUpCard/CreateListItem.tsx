@@ -16,7 +16,7 @@ const MyPreview = () => {
     return null;
   }
   const { ref, item, style } = preview;
-  const newStyle = { ...style, left: style.left || 0 + 100 };
+  const newStyle = { ...style, left: style.left ?? 0 + 100 };
   const itemData = item as DragItem;
   return (
     <Box ref={ref} sx={newStyle}>

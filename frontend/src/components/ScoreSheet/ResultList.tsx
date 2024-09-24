@@ -1,4 +1,4 @@
-import { categoryType, playerPointsType } from "../types";
+import { categoryType, playerPointsType } from "../../types";
 import { useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import { ScoreChip } from "./ScoreChip";
@@ -26,13 +26,12 @@ const ResultList = ({ scoreData }: { scoreData: categoryType }) => {
       },
       startingScoreObject
     );
-    const scoreList = Object.entries(scoresObject) as [string, number][];
+    const scoreList = Object.entries(scoresObject);
     return scoreList.sort(([nameA, pointsA], [nameB, pointsB]) => {
       return pointsA === pointsB
         ? nameA.localeCompare(nameB)
         : pointsB - pointsA;
     });
-    // return scoreList.sort((a, b) => b[1] - a[1]);
   }, [scoreData]);
 
   if (!scoreData) return null;

@@ -1,10 +1,9 @@
 import Badge from "@mui/material/Badge";
 import Chip from "@mui/material/Chip";
-import { categoryType } from "../types";
+import { categoryType } from "../../types";
 import { forwardRef, useMemo, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-// import DialogContentText from "@mui/material/DialogContentText";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
@@ -37,7 +36,6 @@ export const ScoreChip = ({
   const rows = useMemo(
     () =>
       Object.entries(scoreData).map(([category, playersScores]) => {
-        // const player = playersScores.find((player) => player.name === name);
         return { category, points: playersScores[name] || 0 };
       }),
     [scoreData, name]
