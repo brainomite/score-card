@@ -22,7 +22,6 @@ const ListScoreButton = ({
   points: number;
 }) => {
   const [open, setOpen] = useState(false);
-  // const [newScore, setNewScore] = useState(points);
   const [updatedScore, setUpdatedScore] = useState(points.toString());
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);

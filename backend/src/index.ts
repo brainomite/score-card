@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-const app = express();
 import routes from "./routes/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { app, server } from "./socket/socket.js";
 
 app.use(express.json()); // for parsing application/json
 app.use(cors());
@@ -19,6 +19,6 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 const { PORT = 80 } = process.env;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
