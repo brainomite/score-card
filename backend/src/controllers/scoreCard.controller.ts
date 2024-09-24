@@ -3,6 +3,7 @@ import generateScoreCard from "../utils/generateScoreCard.js";
 import fetchScoreCard from "../utils/fetchScoreCard.js";
 import updateScoreCard from "../utils/updateScoreCard.js";
 import clearScoreCard from "../utils/clearScoreCard.js";
+import { io, SCORE_SHEET_DATA } from "../socket/socket.js";
 
 export const createScoreCard = async (req: Request, res: Response) => {
   const { categories, players }: { categories: string[]; players: string[] } =
@@ -43,7 +44,8 @@ export const patchScoreCard = async (req: Request, res: Response) => {
   const { category, player, score } = req.body;
   try {
     const scoreCard = await updateScoreCard(id, category, player, score);
-    res.status(202).json(scoreCard);
+    res.sendStatus(202);
+    io.to(id).emit(SCORE_SHEET_DATA, scoreCard);
   } catch (error: any) {
     res.status(500).send("Error updating score card");
     console.error("Error updating score card", error.message);
