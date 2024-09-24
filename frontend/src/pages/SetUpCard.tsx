@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import InputList from "../components/InputList";
+import InputList from "../components/SetUpCard/InputList";
 import { FC, useState } from "react";
 import { Navigate } from "react-router-dom";
 import GithubCorner from "react-github-corner";

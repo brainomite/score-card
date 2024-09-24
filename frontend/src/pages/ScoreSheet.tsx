@@ -1,8 +1,8 @@
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
-import ListScoreCategory from "../components/ListScoreCategory";
+import ListScoreCategory from "../components/ScoreSheet/ListScoreCategory";
 import Box from "@mui/material/Box";
-import ResultList from "../components/ResultList";
+import ResultList from "../components/ScoreSheet/ResultList";
 import { categoryType } from "../types";
 import { FC, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
