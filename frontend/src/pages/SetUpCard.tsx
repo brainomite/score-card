@@ -13,6 +13,7 @@ import {
 } from "react-dnd-multi-backend";
 import toast from "react-hot-toast";
 import Button from "@mui/material/Button";
+import stickFigure from "../assets/stick-figure";
 
 const HTML5toTouch = {
   backends: [
@@ -90,6 +91,11 @@ export const Component: FC = () => {
           },
         }}
       >
+        <img
+          style={{ width: "300px", height: "300px" }}
+          src={stickFigure}
+          alt="Stick Figure"
+        />
         <InputList
           name="Category"
           listItems={categories}
