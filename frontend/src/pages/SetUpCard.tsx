@@ -86,6 +86,7 @@ export const Component: FC = () => {
           borderRadius: 2,
           bgcolor: "background.paper",
           color: "text.secondary",
+          padding: "10px",
           "& svg": {
             m: 1,
           },
