@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["fontsource", "octo", "qrcode", "SCORESHEET", "VITE"]
+  "cSpell.words": ["fontsource", "octo", "qrcode", "SCORESHEET", "VITE"],
+  "sonarlint.testFilePattern": "**/stick-figure.tsx",
+  "sonarlint.analysisExcludesStandalone": "**/stick-figure.tsx"
 }
