@@ -7,11 +7,7 @@ import { categoryType } from "../types";
 import { FC, useEffect, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import ScoreSheetSpeedDial from "../components/ScoreSheet/ScoreSheetSpeedDial";
-import { socket } from "../utils/socket";
 import toast from "react-hot-toast";
-export const SCORE_SHEET_DATA = "scoreSheetData";
-export const UPDATE_SCORESHEET = "updateScoreSheet";
-export const JOIN_SCORESHEET = "joinScoreSheet";
 
 export const Component: FC = () => {
   const [scoreData, setScoreData] = useState<categoryType>(
@@ -20,28 +16,34 @@ export const Component: FC = () => {
   const { id } = useParams() as { id: string };
 
   useEffect(() => {
-    const onConnect = () => socket.emit(JOIN_SCORESHEET, id);
-    const onDisconnect = () =>
-      toast.error("Unknown error, disconnected from server");
-    const onScoreSheetDataEvent = (updatedScoreCard: categoryType) =>
-      setScoreData(updatedScoreCard);
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on(SCORE_SHEET_DATA, onScoreSheetDataEvent);
-    socket.connect();
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off(SCORE_SHEET_DATA, onScoreSheetDataEvent);
-      socket.close();
-    };
+    try {
+      const cardEventSource = new EventSource(
+        `/api/score-card/${id}/subscribe/`
+      );
+      cardEventSource.onmessage = (event) =>
+        setScoreData(JSON.parse(event.data));
+      return () => cardEventSource.close();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Error connecting to the server");
+    }
   }, [id]);
 
   const updateScoreForCategory =
     (category: string) => (player: string) => async (score: number) => {
-      const payload = { id, category, player, score };
-      await socket.emitWithAck(UPDATE_SCORESHEET, payload);
+      const res = await fetch(`/api/score-card/${id}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category,
+          player,
+          score,
+        }),
+      });
+      const updatedCard = (await res.json()) as categoryType;
+      setScoreData(updatedCard);
     };
 
   const listScoreCategories = () => {
