@@ -22,6 +22,11 @@ export const Component: FC = () => {
       );
       cardEventSource.onmessage = (event) =>
         setScoreData(JSON.parse(event.data));
+      cardEventSource.onerror = (error) => {
+        if (import.meta.env.DEV) {
+          console.error("SSE error:", error);
+        }
+      };
       return () => cardEventSource.close();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
