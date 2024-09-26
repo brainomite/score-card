@@ -39,6 +39,6 @@ export default (
   player: string,
   score: number
 ) => {
-  const path = `$.${category}.${player}`;
+  const path = `$.['${category}'].['${player}']`;
   return mergeScoreCard(id, path, score);
 };
